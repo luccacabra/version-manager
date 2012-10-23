@@ -31,6 +31,13 @@ VERSION=`grep 'version=' $SRC_DIR/setup.py | awk -F\' '{print $2}'`
 #Pull current tags
 TAGS=`git tag`
 
+for tag in ${TAGS}
+do
+	if [ "${tag}" = "${VERSION}" ]; then
+		echo "Version has already been tagged and commited. Exiting."
+		exit 0 #Counts as a successfull exit
+	fi
+done
 
 #git tag $VERSION
 git tag $VERSION
@@ -41,8 +48,8 @@ NEW_VERSION=`echo $VERSION | sed 's/[0-9]$/'"$((LAST_CHAR+1))"'/'` #increments v
 
 sed -i -e "s/\(version=\).*/\1\'${NEW_VERSION}\',/" $SRC_DIR/setup.py
 
-echo "OLD $VERSION"
-echo "NEW $NEW_VERSION"
+git add .
+git commit -a -m "$VERSION"
+#git push origin master
 
-echo "here"
 
