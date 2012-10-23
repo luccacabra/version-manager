@@ -50,6 +50,6 @@ sed -i -e "s/\(version=\).*/\1\'${NEW_VERSION}\',/" $SRC_DIR/setup.py
 
 git add .
 git commit -a -m "$VERSION"
-#git push origin master
+git push origin master
 
 
